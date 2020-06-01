@@ -7,6 +7,8 @@ import nextbac.helpers.config as config
 
 # main function to direct everything
 def backupStart():
+    if not config.checkConfig():
+        config.makeConfig()
     serverPath, backupPath = config.getConfig()
     csv_name = csvH.check_csv(backupPath)
     month, year = ownDate.currentDate()
