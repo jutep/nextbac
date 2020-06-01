@@ -2,14 +2,13 @@ import nextbac.helpers.csvHandler as csvH
 import nextbac.helpers.database as db
 import nextbac.helpers.check as check
 import nextbac.helpers.ownDate as ownDate
-import nextbac.helpers.config as config
 
 
 # main function to direct everything
 def backupStart():
-    if not config.checkConfig():
-        config.makeConfig()
-    serverPath, backupPath = config.getConfig()
+    if not check.checkConfig():
+        check.makeConfig()
+    serverPath, backupPath = check.getConfig()
     csv_name = csvH.check_csv(backupPath)
     month, year = ownDate.currentDate()
     check.checkStructure(backupPath, month, year)
