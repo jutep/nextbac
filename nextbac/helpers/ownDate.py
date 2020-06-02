@@ -2,7 +2,6 @@
 from datetime import date
 
 
-# returns (month, year) in a tuple
 def currentDate():
     today = date.today()
     year = today.strftime("%Y")
