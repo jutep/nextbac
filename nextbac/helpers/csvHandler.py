@@ -25,7 +25,7 @@ def checkCsv(backupPath):
     else:
         with open(os.path.join(backupPath, "picDictbase.csv"), 'w') as newCsv:
             newCsv.write("img_name,year,month,status\n")
-        print("picDictbase created")
+        print("database created")
         return "picDictbase.csv"
 
 

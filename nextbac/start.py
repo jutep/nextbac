@@ -5,11 +5,11 @@ import nextbac.helpers.ownDate as ownDate
 
 
 def backupStart():
+    month, year = ownDate.currentDate()
     if not check.checkConfig():
         check.makeConfig()
     serverPath, backupPath = check.getConfig()
     picCsv = csvHandler.checkCsv(backupPath)
-    month, year = ownDate.currentDate()
     check.checkStructure(backupPath, month, year)
     storedPics = csvHandler.readCsv(backupPath, picCsv)
     toStorePics = db.getPics(serverPath, storedPics, month, year)
@@ -18,4 +18,4 @@ def backupStart():
                          toStorePics, month, year, picCsv)
         csvHandler.writeCsv(backupPath, toStorePics, picCsv)
     else:
-        print("nothing to store")
+        print("nothing too store")

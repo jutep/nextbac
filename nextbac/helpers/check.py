@@ -3,33 +3,42 @@ import os
 import sys
 from os.path import expanduser
 from pathlib import Path
+from .inputHandler import configInput
 
 
-configfile = expanduser("~") + "/.config/nextbac/nextbac.conf"
-configpath = Path(configfile)
+configPath = expanduser("~") + "/.config/nextbac"
+configFile = configPath + "/nextbac.conf"
 
 
 def checkConfig():
-    return configpath.is_file()
+    return os.path.exists(configFile)
 
 
 def getConfig():
-    with open(configfile) as f:
+    with open(configFile) as f:
         content = f.read().splitlines()
     f.close()
     return (content[0], content[1])
 
 
 def makeConfig():
-    print("not implemented yet")
+    serverPath, backupPath = configInput()
+    if not os.path.isdir(configPath):
+        os.mkdir(configPath)
+    # Creating the configfile
+    newConf = open(configFile, "w+")
+    newConf.write(serverPath + "\n")
+    newConf.write(backupPath)
+    newConf.close()
+    print("config file created")
 
 
 # checks and creates the proper folder structure in backupPath
-def checkStructure(path, month, year):
-    if not os.path.isdir(path + "/" + year):
-        os.mkdir(path + "/" + year)
-        os.mkdir(path + "/" + year + "/" + month)
+def checkStructure(backupPath, month, year):
+    if not os.path.isdir(backupPath + "/" + year):
+        os.mkdir(backupPath + "/" + year)
+        os.mkdir(backupPath + "/" + year + "/" + month)
         print("folders: " + year + ", " + month + " created")
-    elif not os.path.isdir(path + "/" + year + "/" + month):
-        os.mkdir(path + "/" + year + "/" + month)
+    elif not os.path.isdir(backupPath + "/" + year + "/" + month):
+        os.mkdir(backupPath + "/" + year + "/" + month)
         print("folder: " + month + " created")

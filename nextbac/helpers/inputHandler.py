@@ -1,0 +1,10 @@
+def configInput():
+    print("Configuration for Nextbac")
+    print()
+    print("Notice ~/.config/ needs to exist")
+    print("Pls enter your full server path like /home/USER/...")
+    serverPath = input()
+    print()
+    print("Enter your full backup path like /home/USER/...")
+    backupPath = input()
+    return (serverPath, backupPath)
