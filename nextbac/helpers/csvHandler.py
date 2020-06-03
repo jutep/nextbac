@@ -23,7 +23,7 @@ def checkCsv(backupPath):
         if file.endswith(".csv"):
             return file
     else:
-        with open(os.path.join(backupPath, "picDictbase.csv"), 'w') as newCsv:
+        with open(os.path.join(backupPath, "database.csv"), 'w') as newCsv:
             newCsv.write("img_name,year,month,status\n")
         print("database created")
         return "picDictbase.csv"
