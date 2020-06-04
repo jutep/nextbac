@@ -12,8 +12,8 @@ def getPics(path, storedPics, month, year):
     return toStorePics
 
 
-def storePictures(serverPath, localPath, pics, month, year, csv_name):
-    for pic_name, pic_value in pics.items():
-        shutil.copyfile(serverPath + "/" + pic_name,
-                        localPath + "/" + year + "/" + month + "/" + pic_name)
+def storePictures(serverPath, localPath, pics, month, year):
+    for name in pics:
+        shutil.copyfile(serverPath + "/" + name,
+                        localPath + "/" + year + "/" + month + "/" + name)
     print(str(len(pics)) + " pictures stored")

@@ -3,10 +3,10 @@ import csv
 import shutil
 
 
-# format of dict : {key: Image Name, values: List(year, month, status)}
-def readCsv(backupPath, file_name):
+# format of dict : {key: Image Name, values: [year, month, status]}
+def readCsv(backupPath):
     picDict = {}
-    with open(backupPath + "/" + file_name, mode='r') as picCsv:
+    with open(backupPath + "/database.csv", mode='r') as picCsv:
         csvReader = csv.DictReader(picCsv)
         for row in csvReader:
             picDict[row['img_name']] = [
@@ -16,21 +16,8 @@ def readCsv(backupPath, file_name):
         return picDict
 
 
-# return: existing or created csv filename
-def checkCsv(backupPath):
-    picCsv = os.listdir(backupPath)
-    for file in picCsv:
-        if file.endswith(".csv"):
-            return file
-    else:
-        with open(os.path.join(backupPath, "database.csv"), 'w') as newCsv:
-            newCsv.write("img_name,year,month,status\n")
-        print("database created")
-        return "database.csv"
-
-
-def writeCsv(backupPath, picDict, picCsv):
-    with open(backupPath + '/' + picCsv, mode='a') as backupCsv:
+def writeCsv(backupPath, picDict):
+    with open(backupPath + '/database.csv', mode='a') as backupCsv:
         csvWriter = csv.writer(backupCsv, delimiter=',',
                                quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for picName in picDict:
@@ -38,3 +25,14 @@ def writeCsv(backupPath, picDict, picCsv):
                 picName, picDict[picName][0], picDict[picName][1], picDict[picName][2]
             ])
         backupCsv.close()
+
+
+def changeStatus(backupPath, removePics, status):
+    csvReader = csv.reader(open(backupPath + "/database.csv"))
+    picLines = list(csvReader)
+    for line in picLines:
+        if line[0] in removePics:
+            line[3] = status
+
+    csvWriter = csv.writer(open(backupPath + "/database.csv", 'w'))
+    csvWriter.writerows(picLines)
