@@ -5,7 +5,9 @@ import select
 
 
 def main(args=sys.argv):
-    removePics = [line[:-1] for line in sys.stdin if line[-4:-1] == 'jpg']
+    removePics = {}
+    if len(args) > 2:
+        removePics = [line[:-1] for line in sys.stdin if line[-4:-1] == 'jpg']
 
     # creating parser
     parser = argparse.ArgumentParser()
@@ -34,7 +36,7 @@ def main(args=sys.argv):
         if (args['s']):
             print('sry statistics not implemented yet')
         else:
-            for arg in args:
-                if arg:
+            for flagExists in args.values():
+                if flagExists:
                     raise Exception('Wrong configuration of flags and input')
             start.backup()
