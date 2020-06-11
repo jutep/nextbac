@@ -6,14 +6,12 @@ import select
 
 def main(args=sys.argv):
     removePics = {}
-    if len(args) > 2:
+    if len(args) >= 2:
         removePics = [line[:-1] for line in sys.stdin if line[-4:-1] == 'jpg']
 
     # creating parser
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', action='store_true')
-    parser.add_argument('-rl', action='store_true')
-    parser.add_argument('-rs', action='store_true')
     parser.add_argument('-s', action='store_true')
 
     # parsing args
@@ -23,12 +21,6 @@ def main(args=sys.argv):
         # remove in server and backup
         if (args['r']):
             start.remove(removePics)
-        # remove in backup only
-        elif (args['rl']):
-            print('remove local not implemented yet')
-        # remove on server only
-        elif (args['rs']):
-            print('remove server not implemented yet')
         else:
             raise Exception('no remove mode specified use -r; -rl; -rs')
     else:

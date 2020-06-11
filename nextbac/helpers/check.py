@@ -76,16 +76,20 @@ def picsExist(removePics, serverPath, backupPath):
     for pic in removePics:
         if not (pic in storedPics):
             raise ValueError('Picture does not exist in backup: ' + pic)
+        elif not os.path.isfile(serverPath + "/" + pic):
+            raise ValueError('File does not exist in server: ' + pic)
         else:
-            # TODO also check the status of the picture if it was delted already
-            #       or maybe just deleted on one side
-            # not needed for server because there it checks the existance
-            # and here just the existance in the database which has
-            # every picture ever stored
             picsWithValues[pic] = storedPics[pic]
 
-    for pic in removePics:
-        if not os.path.isfile(serverPath + "/" + pic):
-            raise ValueError('File does not exist in server: ' + pic)
-
     return picsWithValues
+
+
+def difference(serverPath, backupPath):
+    storedPics = readCsv(backupPath)
+    differencePics = {}
+    for pic, val in storedPics.items():
+        if val[2] == "s":
+            if not (os.path.exists(serverPath + "/" + pic)):
+                differencePics[pic] = val
+
+    return differencePics

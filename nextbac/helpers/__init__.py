@@ -3,5 +3,5 @@ from .ownDate import currentDate
 from .database import getPics, storePictures
 from .csvHandler import readCsv, writeCsv, changeStatus
 from .check import (checkStructure, getConfig, checkConfig, makeConfig,
-                    checkCsv, backupStructure, picsExist)
-from .removePictures import backupAndServer
+                    checkCsv, backupStructure, picsExist, difference)
+from .remove import removePictures
