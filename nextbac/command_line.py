@@ -5,24 +5,20 @@ import select
 
 
 def main(args=sys.argv):
-    removePics = {}
-    if len(args) >= 2:
-        removePics = [line[:-1] for line in sys.stdin if line[-4:-1] == 'jpg']
-
     # creating parser
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', action='store_true')
     parser.add_argument('-s', action='store_true')
 
     # parsing args
     args = vars(parser.parse_args())
 
-    if removePics:
-        # remove in server and backup
-        if (args['r']):
+    if not sys.stdin.isatty():
+        removePics = [line[:-1] for line in sys.stdin if line[-4:-1] == 'jpg']
+        removePics = stripPics(removePics)
+        if removePics:
             start.remove(removePics)
         else:
-            raise Exception('no remove mode specified use -r; -rl; -rs')
+            print('You need to pipe an picture to remove it')
     else:
         # ststistics mode
         if (args['s']):
@@ -32,3 +28,17 @@ def main(args=sys.argv):
                 if flagExists:
                     raise Exception('Wrong configuration of flags and input')
             start.backup()
+
+
+# stripping pictures if the pipe to nextbac is
+# like: [year/month/picName.jpg]
+# returns: [picName.jpg]
+def stripPics(removePics):
+    for index, picName in enumerate(removePics):
+        if picName[0] != "I":
+            copyPic = ""
+            for counter, char in enumerate(picName):
+                if char == "/":
+                    copyPic = picName[counter+1:]
+            removePics[index] = copyPic
+    return removePics
